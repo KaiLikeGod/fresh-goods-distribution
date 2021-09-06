@@ -31,7 +31,7 @@ public class FrmLogin extends JDialog implements ActionListener {
 	private JPasswordField edtPwd = new JPasswordField(20);
 
 
-	public FrmLogin(Frame f, String s, boolean b,) {
+	public FrmLogin(Frame f, String s, boolean b) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(this.btnRegister);
@@ -73,19 +73,22 @@ public class FrmLogin extends JDialog implements ActionListener {
 			String username=this.edtUsername.getText();
 			String pwd=new String(this.edtPwd.getPassword());
 			try {
+				user use=new user();
 				if (this.rbcustom.isSelected()) {
 					customer.currentLoginUser = DistributionUtil.userManager.logincustomer(username, pwd);
-					user.currentLoginUser.setUserid(customer.currentLoginUser.getUserid());
-					user.currentLoginUser.setPwd(customer.currentLoginUser.getPwd());
-					user.currentLoginUser.setUsername(customer.currentLoginUser.getUsername());
-					user.currentLoginUser.setUsertype(customer.currentLoginUser.getUsertype());
+					use.setUserid(customer.currentLoginUser.getUserid());
+					use.setPwd(customer.currentLoginUser.getPwd());
+					use.setUsername(customer.currentLoginUser.getUsername());
+					use.setUsertype(customer.currentLoginUser.getUsertype());
+					user.currentLoginUser = use;
 				}
 				else {
 					admin.currentLoginUser = DistributionUtil.userManager.loginadmin(username, pwd);
-					user.currentLoginUser.setUserid(admin.currentLoginUser.getUserid());
-					user.currentLoginUser.setPwd(admin.currentLoginUser.getPwd());
-					user.currentLoginUser.setUsername(admin.currentLoginUser.getUsername());
-					user.currentLoginUser.setUsertype(admin.currentLoginUser.getUsertype());
+					use.setUserid(admin.currentLoginUser.getUserid());
+					use.setPwd(admin.currentLoginUser.getPwd());
+					use.setUsername(admin.currentLoginUser.getUsername());
+					use.setUsertype(admin.currentLoginUser.getUsertype());
+					user.currentLoginUser=use;
 				}
 
 			} catch (BaseException e1) {

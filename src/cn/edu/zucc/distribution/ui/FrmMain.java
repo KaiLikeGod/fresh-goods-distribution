@@ -11,13 +11,20 @@ import cn.edu.zucc.distribution.util.*;
 public class FrmMain extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
     private FrmLogin dlgLogin=null;
+    private FrmMainCustomer dlgMainCustomer=null;
+    private FrmMainAdmin dlgMainAdmin=null;
     public FrmMain(){
         this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.setTitle("生鲜配送系统");
         dlgLogin=new FrmLogin(this,"登陆",true);
         dlgLogin.setVisible(true);
-        if (user.currentLoginUser.getUsertype().equals("管理员"))
-//        if (this.gett)
+        if (user.currentLoginUser.getUsertype().equals("客户")) {
+            dlgMainCustomer=new FrmMainCustomer();
+            dlgMainCustomer.setVisible(true);
+        }else {
+            dlgMainAdmin=new FrmMainAdmin();
+            dlgMainAdmin.setVisible(true);
+        }
     }
     @Override
     public void actionPerformed(ActionEvent e) {}

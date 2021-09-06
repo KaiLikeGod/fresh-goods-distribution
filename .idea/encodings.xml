@@ -10,7 +10,7 @@
     <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/model/BeanStep.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/ui/FrmAddPlan.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/ui/FrmLogin.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/ui/FrmMain.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/ui/FrmMain_old.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/ui/FrmModifyPwd.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/ui/FrmRegisterAdmin.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/util/DBUtil2.java" charset="GBK" />
