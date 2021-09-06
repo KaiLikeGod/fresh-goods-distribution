@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="GBK">
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/DistributionStarter.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/DistributionUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/comtrol/example/ExampleUserManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/itf/IPlanManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/itf/IUserManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/model/BeanPlan.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/model/BeanStep.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/ui/FrmAddPlan.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/ui/FrmLogin.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/ui/FrmMain.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/ui/FrmModifyPwd.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/ui/FrmRegisterAdmin.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/util/DBUtil2.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/edu/zucc/distribution/util/DbException.java" charset="GBK" />
+    <file url="PROJECT" charset="GBK" />
+  </component>
+</project>
