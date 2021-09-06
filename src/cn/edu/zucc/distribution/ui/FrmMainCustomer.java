@@ -28,6 +28,7 @@ public class FrmMainCustomer extends JFrame implements ActionListener {
     private JMenuItem menu_order=new JMenuItem("查看历史订单");
 
     private JPanel statusBar = new JPanel();
+    ImageIcon icon1=new ImageIcon("src/logo.jpg" );
 
     public FrmMainCustomer(){
         this.setExtendedState(Frame.MAXIMIZED_BOTH);
