@@ -31,7 +31,7 @@ public class FrmLogin extends JDialog implements ActionListener {
 	private JPasswordField edtPwd = new JPasswordField(20);
 
 
-	public FrmLogin(Frame f, String s, boolean b) {
+	public FrmLogin(Frame f, String s, boolean b,) {
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(this.btnRegister);
@@ -73,8 +73,21 @@ public class FrmLogin extends JDialog implements ActionListener {
 			String username=this.edtUsername.getText();
 			String pwd=new String(this.edtPwd.getPassword());
 			try {
-				if (this.rbcustom.isSelected()) customer.currentLoginUser= DistributionUtil.userManager.logincustomer(username, pwd);
-				else admin.currentLoginUser= DistributionUtil.userManager.loginadmin(username, pwd);
+				if (this.rbcustom.isSelected()) {
+					customer.currentLoginUser = DistributionUtil.userManager.logincustomer(username, pwd);
+					user.currentLoginUser.setUserid(customer.currentLoginUser.getUserid());
+					user.currentLoginUser.setPwd(customer.currentLoginUser.getPwd());
+					user.currentLoginUser.setUsername(customer.currentLoginUser.getUsername());
+					user.currentLoginUser.setUsertype(customer.currentLoginUser.getUsertype());
+				}
+				else {
+					admin.currentLoginUser = DistributionUtil.userManager.loginadmin(username, pwd);
+					user.currentLoginUser.setUserid(admin.currentLoginUser.getUserid());
+					user.currentLoginUser.setPwd(admin.currentLoginUser.getPwd());
+					user.currentLoginUser.setUsername(admin.currentLoginUser.getUsername());
+					user.currentLoginUser.setUsertype(admin.currentLoginUser.getUsertype());
+				}
+
 			} catch (BaseException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "´íÎó",JOptionPane.ERROR_MESSAGE);
 				return;
