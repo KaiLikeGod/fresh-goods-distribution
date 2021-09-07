@@ -34,21 +34,31 @@ public class FrmMainCustomer extends JFrame implements ActionListener {
         this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.setTitle("生鲜智能配送系统 V1.0.0");
         this.menu_user.add(this.menu_change_pwd);
+        this.menu_change_pwd.addActionListener(this);
         this.menu_user.add(this.menu_change_address);
         this.menu_user.add(this.menu_change_lgt);
         this.menu_user.add(this.menu_change_lat);
+        this.menu_change_address.addActionListener(this);
+        this.menu_change_lgt.addActionListener(this);
+        this.menu_change_lat.addActionListener(this);
 
         this.menu_sousuo.add(menu_orders_find);
         this.menu_sousuo.add(menu_warehouse_find);
+        this.menu_orders_find.addActionListener(this);
+        this.menu_warehouse_find.addActionListener(this);
 
         this.menu_buy.add(menu_all_order);
         this.menu_buy.add(menu_buy_car);
         this.menu_buy.add(menu_order);
+        this.menu_all_order.addActionListener(this);
+        this.menu_buy_car.addActionListener(this);
+        this.menu_order.addActionListener(this);
 
         menubar.add(menu_user);
         menubar.add(menu_sousuo);
         menubar.add(menu_buy);
         this.setJMenuBar(menubar);
+
 
         statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
         JLabel label=new JLabel("尊敬的 " + customer.currentLoginUser.getUsername()+", 您好! ");//修改成   您好！+登陆用户名
@@ -59,9 +69,19 @@ public class FrmMainCustomer extends JFrame implements ActionListener {
                 System.exit(0);
             }
         });
+
+
         this.setVisible(true);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource()==this.menu_change_pwd){
+            FrmChangePwd dlg=new FrmChangePwd(this,"修改密码",true,"customer");
+            dlg.setVisible(true);
+        }
+        else if (e.getSource()==this.menu_change_address){
+            FrmChangeAddress dlg=new FrmChangeAddress(this,"修改地址",true);
+            dlg.setVisible(true);
+        }
     }
 }

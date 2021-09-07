@@ -237,37 +237,174 @@ public class ExampleUserManager implements IUserManager {
 	}
 
 	@Override
-	public void changePwd(BeanUser user, String oldPwd, String newPwd,
+	public void changePwdCustomer(customer user, String oldPwd, String newPwd,
 			String newPwd2) throws BaseException {
-		// TODO Auto-generated method stub
-		if (oldPwd==null || "".equals(oldPwd)) throw new BusinessException("??????????");
+		if (oldPwd==null || "".equals(oldPwd)) throw new BusinessException("旧密码不能为空！");
 		Connection conn=null;
 		try {
 			conn= DBUtil.getConnection();
-			String sql="SELECT user_pwd\n" +
-					"FROM tbl_user \n" +
-					"WHERE user_id=?";
+			String sql="SELECT password\n" +
+					"FROM user \n" +
+					"WHERE user_name=?";
 			PreparedStatement pst=conn.prepareStatement(sql);
-			pst.setString(1,user.getUser_id());
+			pst.setString(1,user.getUsername());
 			ResultSet rs=pst.executeQuery();
 			if (rs.next()){
 				if (!oldPwd.equals(rs.getString(1))) {
 					rs.close();
 					pst.close();
-					throw new BusinessException("????????????");
+					throw new BusinessException("旧密码输入错误！");
 				}
 			}
 			rs.close();
 			pst.close();
-			if (newPwd==null || "".equals(newPwd)) throw new BusinessException("????????????");
-			if (!newPwd.equals(newPwd2)) throw new BusinessException("????????????????");
-			sql="UPDATE tbl_user SET user_pwd=? WHERE user_id=?\n";
+			if (newPwd==null || "".equals(newPwd)) throw new BusinessException("新密码不能为空");
+			if (!newPwd.equals(newPwd2)) throw new BusinessException("两次输入得密码不一致！");
+			sql="UPDATE user SET password=? WHERE user_name=?\n";
 			pst=conn.prepareStatement(sql);
 			pst.setString(1,newPwd);
-			pst.setString(2,user.getUser_id());
+			pst.setString(2,user.getUsername());
 			pst.execute();
 			pst.close();
-			JOptionPane.showMessageDialog(null, "success! ", "???" , JOptionPane.PLAIN_MESSAGE);
+
+			sql="UPDATE customer SET password=? WHERE user_name=?\n";
+			pst=conn.prepareStatement(sql);
+			pst.setString(1,newPwd);
+			pst.setString(2,user.getUsername());
+			pst.execute();
+			pst.close();
+
+			JOptionPane.showMessageDialog(null, "密码修改成功! ", "提示" , JOptionPane.PLAIN_MESSAGE);
+		}catch (SQLException ex){
+			throw new DbException(ex);
+		}finally {
+			if (conn!=null){
+				try {
+					conn.close();
+				}catch (SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public void changePwdAdmin(admin user, String oldPwd, String newPwd,
+								  String newPwd2) throws BaseException {
+		if (oldPwd==null || "".equals(oldPwd)) throw new BusinessException("旧密码不能为空！");
+		Connection conn=null;
+		try {
+			conn= DBUtil.getConnection();
+			String sql="SELECT password\n" +
+					"FROM user \n" +
+					"WHERE user_name=?";
+			PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1,user.getUsername());
+			ResultSet rs=pst.executeQuery();
+			if (rs.next()){
+				if (!oldPwd.equals(rs.getString(1))) {
+					rs.close();
+					pst.close();
+					throw new BusinessException("旧密码输入错误！");
+				}
+			}
+			rs.close();
+			pst.close();
+			if (newPwd==null || "".equals(newPwd)) throw new BusinessException("新密码不能为空");
+			if (!newPwd.equals(newPwd2)) throw new BusinessException("两次输入得密码不一致！");
+			sql="UPDATE user SET password=? WHERE user_name=?\n";
+			pst=conn.prepareStatement(sql);
+			pst.setString(1,newPwd);
+			pst.setString(2,user.getUsername());
+			pst.execute();
+			pst.close();
+
+			sql="UPDATE admin SET password=? WHERE user_name=?\n";
+			pst=conn.prepareStatement(sql);
+			pst.setString(1,newPwd);
+			pst.setString(2,user.getUsername());
+			pst.execute();
+			pst.close();
+
+			JOptionPane.showMessageDialog(null, "密码修改成功! ", "提示" , JOptionPane.PLAIN_MESSAGE);
+		}catch (SQLException ex){
+			throw new DbException(ex);
+		}finally {
+			if (conn!=null){
+				try {
+					conn.close();
+				}catch (SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	@Override
+	public void changeAddressCustomer(customer user,String newAddress) throws BaseException{
+		if (newAddress==null || "".equals(newAddress)) throw new BusinessException("新地址不能为空！");
+		Connection conn=null;
+		try {
+			conn= DBUtil.getConnection();
+			String sql="UPDATE customer SET cus_address=? WHERE user_id=?\n";
+			PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1,user.getUserid());
+			pst.execute();
+			pst.close();
+
+			JOptionPane.showMessageDialog(null, "密码修改成功! ", "提示" , JOptionPane.PLAIN_MESSAGE);
+		}catch (SQLException ex){
+			throw new DbException(ex);
+		}finally {
+			if (conn!=null){
+				try {
+					conn.close();
+				}catch (SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void changeLgtCustomer(customer user,float newLgt) throws BaseException{
+		if (newLgt==-1) throw new BusinessException("坐标经度不能为空");
+		Connection conn=null;
+		try {
+			conn= DBUtil.getConnection();
+			String sql="UPDATE customer SET cus_longitude=? WHERE user_id=?\n";
+			PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setFloat(1,user.getCuslgt());
+			pst.execute();
+			pst.close();
+
+			JOptionPane.showMessageDialog(null, "经度修改成功! ", "提示" , JOptionPane.PLAIN_MESSAGE);
+		}catch (SQLException ex){
+			throw new DbException(ex);
+		}finally {
+			if (conn!=null){
+				try {
+					conn.close();
+				}catch (SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void changeLatCustomer(customer user,float newLat) throws BaseException{
+		if (newLat==-1) throw new BusinessException("坐标纬度不能为空");
+		Connection conn=null;
+		try {
+			conn= DBUtil.getConnection();
+			String sql="UPDATE customer SET cus_latitude=? WHERE user_id=?\n";
+			PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setFloat(1,user.getCuslgt());
+			pst.execute();
+			pst.close();
+
+			JOptionPane.showMessageDialog(null, "纬度修改成功! ", "提示" , JOptionPane.PLAIN_MESSAGE);
 		}catch (SQLException ex){
 			throw new DbException(ex);
 		}finally {

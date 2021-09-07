@@ -12,5 +12,13 @@ public interface IUserManager {
 
 	public customer logincustomer(String username,String pwd)throws BaseException;
 
-	public void changePwd(BeanUser user, String oldPwd,String newPwd, String newPwd2)throws BaseException;
+	public void changePwdCustomer(customer user, String oldPwd,String newPwd, String newPwd2)throws BaseException;
+
+	public void changePwdAdmin(admin user, String oldPwd,String newPwd, String newPwd2)throws BaseException;
+
+	public void changeAddressCustomer(customer user,String newAddress) throws BaseException;
+
+	public void changeLgtCustomer(customer user,float newLgt) throws BaseException;
+
+	public void changeLatCustomer(customer user,float newLat) throws BaseException;
 }
