@@ -348,11 +348,12 @@ public class ExampleUserManager implements IUserManager {
 			conn= DBUtil.getConnection();
 			String sql="UPDATE customer SET cus_address=? WHERE user_id=?\n";
 			PreparedStatement pst=conn.prepareStatement(sql);
-			pst.setInt(1,user.getUserid());
+			pst.setString(1,newAddress);
+			pst.setInt(2,user.getUserid());
 			pst.execute();
 			pst.close();
 
-			JOptionPane.showMessageDialog(null, "密码修改成功! ", "提示" , JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(null, "地址修改成功! ", "提示" , JOptionPane.PLAIN_MESSAGE);
 		}catch (SQLException ex){
 			throw new DbException(ex);
 		}finally {
@@ -374,7 +375,8 @@ public class ExampleUserManager implements IUserManager {
 			conn= DBUtil.getConnection();
 			String sql="UPDATE customer SET cus_longitude=? WHERE user_id=?\n";
 			PreparedStatement pst=conn.prepareStatement(sql);
-			pst.setFloat(1,user.getCuslgt());
+			pst.setFloat(1,newLgt);
+			pst.setInt(2,user.getUserid());
 			pst.execute();
 			pst.close();
 
@@ -400,7 +402,8 @@ public class ExampleUserManager implements IUserManager {
 			conn= DBUtil.getConnection();
 			String sql="UPDATE customer SET cus_latitude=? WHERE user_id=?\n";
 			PreparedStatement pst=conn.prepareStatement(sql);
-			pst.setFloat(1,user.getCuslgt());
+			pst.setFloat(1,newLat);
+			pst.setInt(2,user.getUserid());
 			pst.execute();
 			pst.close();
 

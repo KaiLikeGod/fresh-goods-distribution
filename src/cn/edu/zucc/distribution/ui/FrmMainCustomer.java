@@ -82,6 +82,12 @@ public class FrmMainCustomer extends JFrame implements ActionListener {
         else if (e.getSource()==this.menu_change_address){
             FrmChangeAddress dlg=new FrmChangeAddress(this,"修改地址",true);
             dlg.setVisible(true);
+        }else if (e.getSource()==this.menu_change_lgt){
+            FrmChangeLgt dlg=new FrmChangeLgt(this,"修改经度",true);
+            dlg.setVisible(true);
+        }else if (e.getSource()==this.menu_change_lat){
+            FrmChangeLat dlg=new FrmChangeLat(this,"修改纬度",true);
+            dlg.setVisible(true);
         }
     }
 }

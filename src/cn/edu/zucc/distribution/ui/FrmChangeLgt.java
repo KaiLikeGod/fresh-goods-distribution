@@ -18,7 +18,7 @@ public class FrmChangeLgt extends JDialog implements ActionListener {
 
     private JLabel labelOldAddress=null;
     private JLabel labelAddress = new JLabel("ÐÂ¾­¶È£º");
-    private JTextField edtAddress = new JPasswordField(20);
+    private JTextField edtAddress = new JTextField(20);
     public FrmChangeLgt(Frame f, String s, boolean b) {
         super(f, s, b);
         toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
