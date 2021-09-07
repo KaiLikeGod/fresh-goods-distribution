@@ -1,6 +1,7 @@
 package cn.edu.zucc.distribution.ui;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import cn.edu.zucc.distribution.DistributionUtil;
 import cn.edu.zucc.distribution.model.*;
@@ -8,6 +9,7 @@ import cn.edu.zucc.distribution.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class FrmMainCustomer extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
@@ -27,8 +29,33 @@ public class FrmMainCustomer extends JFrame implements ActionListener {
     private JMenuItem menu_buy_car=new JMenuItem("购物车");
     private JMenuItem menu_order=new JMenuItem("查看历史订单");
 
+    DefaultTableModel tabGoodsModel=new DefaultTableModel();
+    private JTable dataTableGoods=new JTable(tabGoodsModel);
+
     private JPanel statusBar = new JPanel();
     ImageIcon icon1=new ImageIcon("src/logo.jpg" );
+
+    List<goods> allgoods=null;
+    private Object tblGoodsTitle[]=goods.tableTitlesCustomer;
+    private Object tblGoodData[][];
+    private void reloadgoodsinform(){
+        try {
+            allgoods= DistributionUtil.goodsManager.loadAll();
+        } catch (BaseException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "错误",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        tblGoodData=new Object[allgoods.size()][goods.tableTitlesCustomer.length];
+        for (int i=0;i<allgoods.size();i++){
+            for (int j=0;j<goods.tableTitlesCustomer.length;j++){
+                tblGoodData[i][j]=allgoods.get(i).getCell(j);
+            }
+        }
+        tabGoodsModel.setDataVector(tblGoodData,tblGoodsTitle);
+        this.dataTableGoods.validate();
+        this.dataTableGoods.repaint();
+
+    }
 
     public FrmMainCustomer(){
         this.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -59,6 +86,21 @@ public class FrmMainCustomer extends JFrame implements ActionListener {
         menubar.add(menu_buy);
         this.setJMenuBar(menubar);
 
+        this.getContentPane().add(new JScrollPane(this.dataTableGoods), BorderLayout.CENTER);
+//        this.dataTablePlan.addMouseListener(new MouseAdapter (){
+//
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                int i= FrmMain_old.this.dataTablePlan.getSelectedRow();
+//                if(i<0) {
+//                    return;
+//                }
+//                FrmMainCustomer.this.reloadPlanStepTabel(i);
+//            }
+//
+//        });
+
+        this.reloadgoodsinform();
 
         statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
         JLabel label=new JLabel("尊敬的 " + customer.currentLoginUser.getUsername()+", 您好! ");//修改成   您好！+登陆用户名
