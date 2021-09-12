@@ -2,6 +2,9 @@ package cn.edu.zucc.distribution.itf;
 
 import cn.edu.zucc.distribution.model.*;
 import cn.edu.zucc.distribution.util.BaseException;
+import cn.edu.zucc.distribution.util.*;
+
+import java.util.List;
 
 public interface IUserManager {
 	public void regadmin(String username, String pwd,String pwd2) throws BaseException;
@@ -21,4 +24,15 @@ public interface IUserManager {
 	public void changeLgtCustomer(customer user,float newLgt) throws BaseException;
 
 	public void changeLatCustomer(customer user,float newLat) throws BaseException;
+
+	public List<customer> loadAllCustomer() throws BaseException;
+
+	public List<customer> FindCustomerById(int userid) throws BaseException;
+
+	public List<customer> FingCustomerByName(String username) throws BaseException;
+
+	public void changeCustomerInformation(customer c,String pwd1,String phone,String email,String address,float lgt,float lat) throws BaseException;
+
+	public void deleteCustomer(int userid) throws BaseException;
+
 }

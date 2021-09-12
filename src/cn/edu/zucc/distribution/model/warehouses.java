@@ -1,6 +1,9 @@
 package cn.edu.zucc.distribution.model;
 
+import java.text.SimpleDateFormat;
+
 public class warehouses {
+    public static final String [] tableTitles={"仓库编号", "仓库名称", "仓库地址", "联系方式", "经度", "纬度"};
     private int houseid;
     private String housename;
     private String houseaddress;
@@ -54,5 +57,15 @@ public class warehouses {
 
     public void setHouselat(float houselat) {
         this.houselat = houselat;
+    }
+
+    public String getCell(int col){
+        if (col==0) return Integer.toString(this.getHouseid());
+        else if (col==1) return this.getHousename();
+        else if (col==2) return this.getHouseaddress();
+        else if (col==3) return this.getHousephone();
+        else if (col==4) return Float.toString(this.getHouseLgt());
+        else if (col==5) return Float.toString(this.getHouselat());
+        else return "";
     }
 }

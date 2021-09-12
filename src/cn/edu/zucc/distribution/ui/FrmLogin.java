@@ -25,10 +25,10 @@ public class FrmLogin extends JDialog implements ActionListener {
 	
 	private JLabel labelUser = new JLabel("账号");
 	private JLabel labelPwd = new JLabel("密码");
-	private JRadioButton rbcustom=new JRadioButton("客户",true);
-	private JRadioButton rbadmin=new JRadioButton("管理员");
-	private JTextField edtUsername = new JTextField(20);
-	private JPasswordField edtPwd = new JPasswordField(20);
+	private JRadioButton rbcustom=new JRadioButton("客户");
+	private JRadioButton rbadmin=new JRadioButton("管理员",true);
+	private JTextField edtUsername = new JTextField("tkc",20);
+	private JPasswordField edtPwd = new JPasswordField("tkcyyds",20);
 
 
 	public FrmLogin(Frame f, String s, boolean b) {

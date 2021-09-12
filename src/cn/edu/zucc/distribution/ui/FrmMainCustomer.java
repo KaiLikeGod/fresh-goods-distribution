@@ -9,6 +9,7 @@ import cn.edu.zucc.distribution.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FrmMainCustomer extends JFrame implements ActionListener {
@@ -22,17 +23,21 @@ public class FrmMainCustomer extends JFrame implements ActionListener {
 
     private JMenu menu_sousuo=new JMenu("信息查询");
     private JMenuItem menu_orders_find=new JMenuItem("商品信息查询");
-    private JMenuItem menu_warehouse_find =new JMenuItem("仓库信息查询");
 
     private JMenu menu_buy=new JMenu("购买");
     private JMenuItem menu_all_order=new JMenuItem("全部商品");
     private JMenuItem menu_buy_car=new JMenuItem("购物车");
     private JMenuItem menu_order=new JMenuItem("查看历史订单");
 
+    private JButton jbtAddBuycar=new JButton("加入购物车");
+
+
     DefaultTableModel tabGoodsModel=new DefaultTableModel();
     private JTable dataTableGoods=new JTable(tabGoodsModel);
 
     private JPanel statusBar = new JPanel();
+    private JPanel statusButton=new JPanel();
+
     ImageIcon icon1=new ImageIcon("src/logo.jpg" );
 
     List<goods> allgoods=null;
@@ -59,7 +64,7 @@ public class FrmMainCustomer extends JFrame implements ActionListener {
 
     public FrmMainCustomer(){
         this.setExtendedState(Frame.MAXIMIZED_BOTH);
-        this.setTitle("生鲜智能配送系统 V1.0.0");
+        this.setTitle("生鲜智能订购系统 V1.0.0");
         this.menu_user.add(this.menu_change_pwd);
         this.menu_change_pwd.addActionListener(this);
         this.menu_user.add(this.menu_change_address);
@@ -70,9 +75,7 @@ public class FrmMainCustomer extends JFrame implements ActionListener {
         this.menu_change_lat.addActionListener(this);
 
         this.menu_sousuo.add(menu_orders_find);
-        this.menu_sousuo.add(menu_warehouse_find);
         this.menu_orders_find.addActionListener(this);
-        this.menu_warehouse_find.addActionListener(this);
 
         this.menu_buy.add(menu_all_order);
         this.menu_buy.add(menu_buy_car);
@@ -87,25 +90,16 @@ public class FrmMainCustomer extends JFrame implements ActionListener {
         this.setJMenuBar(menubar);
 
         this.getContentPane().add(new JScrollPane(this.dataTableGoods), BorderLayout.CENTER);
-//        this.dataTablePlan.addMouseListener(new MouseAdapter (){
-//
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                int i= FrmMain_old.this.dataTablePlan.getSelectedRow();
-//                if(i<0) {
-//                    return;
-//                }
-//                FrmMainCustomer.this.reloadPlanStepTabel(i);
-//            }
-//
-//        });
-
         this.reloadgoodsinform();
 
         statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
         JLabel label=new JLabel("尊敬的 " + customer.currentLoginUser.getUsername()+", 您好! ");//修改成   您好！+登陆用户名
         statusBar.add(label);
+        statusBar.add(jbtAddBuycar);
+        jbtAddBuycar.addActionListener(this);
+
         this.getContentPane().add(statusBar,BorderLayout.SOUTH);
+
         this.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){
                 System.exit(0);
@@ -130,6 +124,29 @@ public class FrmMainCustomer extends JFrame implements ActionListener {
         }else if (e.getSource()==this.menu_change_lat){
             FrmChangeLat dlg=new FrmChangeLat(this,"修改纬度",true);
             dlg.setVisible(true);
+        }else if (e.getSource()==this.menu_all_order){
+            this.reloadgoodsinform();
+        }else if (e.getSource()==this.menu_orders_find){
+            FrmDemandGoods dlg=new FrmDemandGoods(this,"商品信息查询",true,"customer");
+            dlg.setVisible(true);
+        }else if (e.getSource()==this.menu_buy_car){
+            FrmBuyCar dlg=new FrmBuyCar(this,"购物车",true);
+            dlg.setVisible(true);
+            this.reloadgoodsinform();
+        }else if (e.getSource()==this.menu_order){
+            FrmOldOrder dlg=new FrmOldOrder(this,"历史订单",true);
+            dlg.setVisible(true);
+            this.reloadgoodsinform();
+        }else if (e.getSource()==this.jbtAddBuycar){
+            int i= FrmMainCustomer.this.dataTableGoods.getSelectedRow();
+            if(i<0) {
+                JOptionPane.showMessageDialog(null, "请选择商品", "错误",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            FrmAddToCart dig=new FrmAddToCart(this,"选择商品数量",true,this.allgoods.get(i));
+            dig.setVisible(true);
+            this.reloadgoodsinform();
         }
+
     }
 }

@@ -8,8 +8,11 @@ import cn.edu.zucc.distribution.util.DBUtil;
 import cn.edu.zucc.distribution.util.DbException;
 import javax.swing.JOptionPane;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.sql.*;
+import java.util.List;
 
 public class ExampleUserManager implements IUserManager {
 
@@ -141,6 +144,14 @@ public class ExampleUserManager implements IUserManager {
 			pst.setFloat(8,lat);
 			pst.execute();
 			pst.close();
+
+			sql="INSERT INTO orders (order_id, user_id, order_weight, order_number, order_volume, order_time, order_is_cold, order_state) \n" +
+					"VALUES ('0', ?, '0', '0', '0', NOW(), '0', '购物车');\n\n";
+			pst=conn.prepareStatement(sql);
+			pst.setInt(1,order);
+			pst.execute();
+			pst.close();
+
 
 			conn.commit();
 		}catch (SQLException ex){
@@ -413,6 +424,244 @@ public class ExampleUserManager implements IUserManager {
 		}finally {
 			if (conn!=null){
 				try {
+					conn.close();
+				}catch (SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public List<customer> loadAllCustomer() throws BaseException{
+		List<customer> result=new ArrayList<customer>();
+		Connection conn=null;
+		try {
+			conn= DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			String sql="SELECT *\n" +
+					"FROM customer\n" +
+					"where user_id>0\n"+
+					"ORDER BY user_id";
+			PreparedStatement pst=conn.prepareStatement(sql);
+			ResultSet rs=pst.executeQuery();
+			while (rs.next()){
+//				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				customer p=new customer();
+				p.setUserid(rs.getInt(1));
+				p.setUsername(rs.getString(2));
+				p.setPwd(rs.getString(3));
+				p.setUsertype(rs.getString(4));
+				p.setCusphone(rs.getString(5));
+				p.setCusemail(rs.getString(6));
+				p.setAddress(rs.getString(7));
+				p.setCustime(rs.getDate(8));
+				p.setCuslgt(rs.getFloat(9));
+				p.setCuslat(rs.getFloat(10));
+				result.add(p);
+			}
+			rs.close();
+			pst.close();
+			conn.commit();
+			return result;
+		}catch (SQLException ex){
+			throw new DbException(ex);
+		}finally {
+			if (conn!=null){
+				try {
+					conn.rollback();
+					conn.close();
+				}catch (SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public List<customer> FindCustomerById(int userid) throws BaseException{
+		List<customer> result=new ArrayList<customer>();
+		Connection conn=null;
+		try {
+			conn= DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			String sql="SELECT *\n" +
+					"FROM customer\n" +
+					"where user_id=?\n"+
+					"ORDER BY user_id";
+			PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1,userid);
+			ResultSet rs=pst.executeQuery();
+			boolean flag=false;
+			while (rs.next()){
+				flag=true;
+//				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				customer p=new customer();
+				p.setUserid(rs.getInt(1));
+				p.setUsername(rs.getString(2));
+				p.setPwd(rs.getString(3));
+				p.setUsertype(rs.getString(4));
+				p.setCusphone(rs.getString(5));
+				p.setCusemail(rs.getString(6));
+				p.setAddress(rs.getString(7));
+				p.setCustime(rs.getDate(8));
+				p.setCuslgt(rs.getFloat(9));
+				p.setCuslat(rs.getFloat(10));
+				result.add(p);
+			}
+			if (!flag) result=null;
+			rs.close();
+			pst.close();
+			conn.commit();
+			return result;
+		}catch (SQLException ex){
+			throw new DbException(ex);
+		}finally {
+			if (conn!=null){
+				try {
+					conn.rollback();
+					conn.close();
+				}catch (SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public List<customer> FingCustomerByName(String username) throws BaseException{
+		List<customer> result=new ArrayList<customer>();
+		Connection conn=null;
+		try {
+			conn= DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			String sql="SELECT *\n" +
+					"FROM customer\n" +
+					"where customer.user_name = ?\n"+
+					"ORDER BY user_id";
+			PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1,username);
+			ResultSet rs=pst.executeQuery();
+			boolean flag=false;
+			while (rs.next()){
+				flag=true;
+//				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				customer p=new customer();
+				p.setUserid(rs.getInt(1));
+				p.setUsername(rs.getString(2));
+				p.setPwd(rs.getString(3));
+				p.setUsertype(rs.getString(4));
+				p.setCusphone(rs.getString(5));
+				p.setCusemail(rs.getString(6));
+				p.setAddress(rs.getString(7));
+				p.setCustime(rs.getDate(8));
+				p.setCuslgt(rs.getFloat(9));
+				p.setCuslat(rs.getFloat(10));
+				result.add(p);
+			}
+			if (!flag) result=null;
+			rs.close();
+			pst.close();
+			conn.commit();
+			return result;
+		}catch (SQLException ex){
+			throw new DbException(ex);
+		}finally {
+			if (conn!=null){
+				try {
+					conn.rollback();
+					conn.close();
+				}catch (SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public void changeCustomerInformation(customer c,String pwd1,String phone,String email,String address,float lgt,float lat) throws BaseException{
+		if (pwd1==null||"".equals(pwd1)) throw new BusinessException("密码不得为空！");
+		if (phone==null||"".equals(phone)) throw new BusinessException("联系方式不得为空！");
+		if (email==null||"".equals(email)) throw new BusinessException("电子邮箱不得为空！");
+		if (address==null||"".equals(address)) throw new BusinessException("地址不得为空！");
+		if (lgt==-1) throw new BusinessException("坐标经度不能为空");
+		if (lat==-1) throw new BusinessException("坐标纬度不能为空");
+		Connection conn=null;
+		try {
+			conn= DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			String sql="UPDATE customer SET password=?,cus_phone=?, cus_email=?,cus_address=?, cus_longitude=?, cus_latitude=? WHERE (user_id=?);\n";
+			PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1,pwd1);
+			pst.setString(2,phone);
+			pst.setString(3,email);
+			pst.setString(4,address);
+			pst.setFloat(5,lgt);
+			pst.setFloat(6,lat);
+			pst.setInt(7,c.getUserid());
+			pst.execute();
+			pst.close();
+
+			sql="UPDATE user SET password=?  WHERE (user_id=?);";
+			pst=conn.prepareStatement(sql);
+			pst.setString(1,pwd1);
+			pst.setInt(2,c.getUserid());
+			pst.execute();
+			pst.close();
+			conn.commit();
+
+		}catch (SQLException ex){
+			throw new DbException(ex);
+		}finally {
+			if (conn!=null){
+				try {
+					conn.rollback();
+					conn.close();
+				}catch (SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public void deleteCustomer(int userid) throws BaseException{
+		Connection conn=null;
+		try {
+			conn= DBUtil.getConnection();
+			conn.setAutoCommit(false);
+
+			String sql="select order_id from orders where user_id=? and order_id>0\n";
+			PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1,userid);
+			ResultSet rs=pst.executeQuery();
+			if (rs.next()){
+				rs.close();
+				pst.close();
+				throw new BusinessException("该客户已有订单，无法删除！");
+			}
+
+			sql="DELETE FROM orders WHERE user_id=?\n";
+			pst=conn.prepareStatement(sql);
+			pst.setInt(1,userid);
+			pst.execute();
+			pst.close();
+
+			sql="DELETE FROM customer WHERE user_id=?;";
+			pst=conn.prepareStatement(sql);
+			pst.setInt(1,userid);
+			pst.execute();
+			pst.close();
+			conn.commit();
+
+			sql="DELETE FROM `user` WHERE user_id=?";
+			pst=conn.prepareStatement(sql);
+			pst.setInt(1,userid);
+			pst.execute();
+			pst.close();
+			conn.commit();
+
+		}catch (SQLException ex){
+			throw new DbException(ex);
+		}finally {
+			if (conn!=null){
+				try {
+					conn.rollback();
 					conn.close();
 				}catch (SQLException e){
 					e.printStackTrace();

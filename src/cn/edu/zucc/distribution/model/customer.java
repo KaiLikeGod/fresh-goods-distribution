@@ -1,9 +1,11 @@
 package cn.edu.zucc.distribution.model;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class customer {
+    public static final String [] tableTitles={"用户编号", "用户姓名", "密码", "用户类型", "联系方式", "电子邮箱", "居住地址", "注册时间", "经度", "纬度"};
     public static customer currentLoginUser=null;
     private int userid;
     private String username;
@@ -94,5 +96,20 @@ public class customer {
 
     public void setCuslat(float cuslat) {
         this.cuslat = cuslat;
+    }
+
+    public String getCell(int col){
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        if (col==0) return Integer.toString(this.getUserid());
+        else if (col==1) return this.getUsername();
+        else if (col==2) return this.getPwd();
+        else if (col==3) return this.getUsertype();
+        else if (col==4) return this.getCusphone();
+        else if (col==5) return this.getCusemail();
+        else if (col==6) return this.getAddress();
+        else if (col==7) return sf.format(this.getCustime());
+        else if (col==8) return Float.toString(this.getCuslgt());
+        else if (col==9) return Float.toString(this.getCuslat());
+        else return "";
     }
 }
